@@ -76,6 +76,37 @@ body {
   backdrop-filter: blur(8px);
 }
 
+.offer-bar {
+  background: linear-gradient(90deg, #042a60, #0c4ba3, #1467d2);
+  color: #e9f4ff;
+  border-bottom: 1px solid rgba(123, 185, 255, 0.35);
+}
+
+.offer-wrap {
+  min-height: 46px;
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 0;
+}
+
+.offer-wrap p {
+  margin: 0;
+  color: #e9f4ff;
+  font-size: 0.9rem;
+}
+
+.offer-wrap a {
+  color: #02244e;
+  text-decoration: none;
+  font-weight: 800;
+  background: #9df4d1;
+  border-radius: 999px;
+  padding: 8px 12px;
+  white-space: nowrap;
+}
+
 .nav-wrap {
   min-height: 78px;
   display: flex;
@@ -446,6 +477,32 @@ li {
   background: linear-gradient(170deg, #fffdf8 0%, #fff4df 100%);
 }
 
+.conversion {
+  background: linear-gradient(180deg, #f8fbff 0%, #eff5ff 100%);
+}
+
+.trust-grid .card {
+  border-top: 4px solid #0d62c8;
+}
+
+.deal-box {
+  margin-top: 16px;
+  background: linear-gradient(160deg, #07214a 0%, #0b336f 100%);
+  border: 1px solid #2f63b1;
+  border-radius: 16px;
+  padding: 18px;
+  box-shadow: var(--glow);
+}
+
+.deal-box h3 {
+  color: #f2f8ff;
+}
+
+.deal-box p,
+.deal-box li {
+  color: #c7daf8;
+}
+
 .sub {
   margin-top: -4px;
   margin-bottom: 14px;
@@ -629,6 +686,11 @@ textarea {
   .menu-btn {
     display: inline-grid;
     place-items: center;
+  }
+
+  .offer-wrap {
+    flex-direction: column;
+    align-items: flex-start;
   }
 }
 

@@ -58,6 +58,25 @@ const countObserver = new IntersectionObserver(
 
 counters.forEach((c) => countObserver.observe(c));
 
+const offerTimer = document.getElementById("offerTimer");
+if (offerTimer) {
+  const target = new Date("2026-03-31T23:59:59+05:30").getTime();
+  const tickOffer = () => {
+    const now = Date.now();
+    const gap = target - now;
+    if (gap <= 0) {
+      offerTimer.textContent = "Offer Closed";
+      return;
+    }
+    const hrs = Math.floor(gap / (1000 * 60 * 60));
+    const mins = Math.floor((gap % (1000 * 60 * 60)) / (1000 * 60));
+    const secs = Math.floor((gap % (1000 * 60)) / 1000);
+    offerTimer.textContent = `${String(hrs).padStart(2, "0")}:${String(mins).padStart(2, "0")}:${String(secs).padStart(2, "0")}`;
+  };
+  tickOffer();
+  setInterval(tickOffer, 1000);
+}
+
 const form = document.getElementById("enquiryForm");
 const formMsg = document.getElementById("formMsg");
 
