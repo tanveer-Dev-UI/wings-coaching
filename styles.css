@@ -543,6 +543,89 @@ li {
   margin-bottom: 8px;
 }
 
+.reviews-live {
+  margin: 12px 0 16px;
+  display: grid;
+  gap: 14px;
+  grid-template-columns: 1.3fr 1fr;
+  align-items: start;
+}
+
+.live-column h3,
+.review-form h3 {
+  margin-bottom: 8px;
+}
+
+.live-review-grid {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.live-review-card {
+  border: 1px solid #cadcf8;
+  border-radius: 14px;
+  padding: 12px;
+  background: linear-gradient(180deg, #ffffff 0%, #f4f9ff 100%);
+  box-shadow: var(--glow);
+}
+
+.live-review-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.reviewer-name {
+  margin: 0;
+  color: #0d2f5d;
+  font-size: 0.96rem;
+}
+
+.reviewer-meta {
+  margin: 2px 0 0;
+  color: #5a7296;
+  font-size: 0.8rem;
+}
+
+.rating-pill {
+  color: #855100;
+  background: #fff3d8;
+  border: 1px solid #ffcf7c;
+  border-radius: 999px;
+  padding: 4px 8px;
+  font-size: 0.75rem;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.live-review-text {
+  margin: 8px 0 6px;
+  color: #304f7a;
+  font-size: 0.9rem;
+}
+
+.live-review-time {
+  color: #607ca7;
+  font-size: 0.74rem;
+  margin: 0;
+}
+
+.live-empty {
+  margin: 0;
+  background: #fff;
+  border: 1px dashed #b7cdef;
+  border-radius: 14px;
+  padding: 12px;
+  color: #5e779b;
+  font-size: 0.9rem;
+}
+
+.review-form {
+  background: #fff;
+}
+
 .sub {
   margin-top: -4px;
   margin-bottom: 14px;
@@ -690,6 +773,8 @@ textarea {
   .grid.four,
   .gallery,
   .seven-grid,
+  .reviews-live,
+  .live-review-grid,
   .contact-grid,
   .strip {
     grid-template-columns: 1fr 1fr;
@@ -740,6 +825,8 @@ textarea {
   .grid.four,
   .gallery,
   .seven-grid,
+  .reviews-live,
+  .live-review-grid,
   .contact-grid,
   .strip,
   .math-boxes {

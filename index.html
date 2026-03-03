@@ -298,6 +298,48 @@
           <article class="card reveal up"><h3>Deepak (Class 7 Parent)</h3><p>Friendly teaching style ki wajah se bachcha khud padhna chahta hai.</p></article>
           <article class="card reveal up"><h3>Farheen (Class 6 Parent)</h3><p>Affordable fees me premium quality guidance mil rahi hai.</p></article>
         </div>
+
+        <div class="reviews-live">
+          <div class="live-column">
+            <h3>Live Parent Reviews</h3>
+            <p class="sub">Naye reviews submit hote hi yahin auto update honge.</p>
+            <div id="liveReviews" class="live-review-grid">
+              <p class="live-empty">No live reviews yet. Be the first to review Wings Coaching.</p>
+            </div>
+          </div>
+
+          <form id="reviewForm" class="form review-form">
+            <h3>Add Your Review</h3>
+            <label>
+              Name
+              <input type="text" name="name" placeholder="Parent or Student Name" required />
+            </label>
+            <label>
+              Class / Relation
+              <input type="text" name="role" placeholder="e.g. Parent of Class 9 student" required />
+            </label>
+            <label>
+              Rating (out of 7)
+              <select name="rating" required>
+                <option value="">Select rating</option>
+                <option value="7">7 - Outstanding</option>
+                <option value="6">6 - Excellent</option>
+                <option value="5">5 - Very Good</option>
+                <option value="4">4 - Good</option>
+                <option value="3">3 - Average</option>
+                <option value="2">2 - Below Average</option>
+                <option value="1">1 - Poor</option>
+              </select>
+            </label>
+            <label>
+              Review
+              <textarea name="comment" rows="4" placeholder="Share your experience" required></textarea>
+            </label>
+            <button type="submit" class="btn full">Submit Review</button>
+            <p id="reviewMsg" class="form-msg"></p>
+          </form>
+        </div>
+
         <div class="marquee">
           <div class="track">
             <span>"Teacher bahut friendly hain, meri daughter ka maths fear khatam ho gaya."</span>

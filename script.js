@@ -126,6 +126,69 @@ const submitLeadToBackend = async (lead) => {
   return buildWhatsAppLink(lead);
 };
 
+const escapeHtml = (value) =>
+  String(value || "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+
+const liveReviewsEl = document.getElementById("liveReviews");
+const reviewForm = document.getElementById("reviewForm");
+const reviewMsg = document.getElementById("reviewMsg");
+let reviewSignature = "";
+
+const reviewStars = (rating) => {
+  const r = Math.max(1, Math.min(7, Number(rating) || 0));
+  return `${"★".repeat(r)}${"☆".repeat(7 - r)}`;
+};
+
+const renderLiveReviews = (reviews) => {
+  if (!liveReviewsEl) return;
+  if (!Array.isArray(reviews) || reviews.length === 0) {
+    liveReviewsEl.innerHTML = `<p class="live-empty">No live reviews yet. Be the first to review Wings Coaching.</p>`;
+    return;
+  }
+
+  liveReviewsEl.innerHTML = reviews
+    .map(
+      (item) => `
+      <article class="live-review-card">
+        <div class="live-review-head">
+          <div>
+            <h4 class="reviewer-name">${escapeHtml(item.name)}</h4>
+            <p class="reviewer-meta">${escapeHtml(item.role)}</p>
+          </div>
+          <span class="rating-pill">${reviewStars(item.rating)} (${escapeHtml(item.rating)}/7)</span>
+        </div>
+        <p class="live-review-text">${escapeHtml(item.comment)}</p>
+        <p class="live-review-time">${escapeHtml(item.timestamp || "Just now")}</p>
+      </article>
+    `
+    )
+    .join("");
+};
+
+const fetchLiveReviews = async () => {
+  try {
+    const response = await fetch(`${API_BASE}/api/reviews?limit=12`, { cache: "no-store" });
+    if (!response.ok) throw new Error("Failed to fetch reviews");
+    const payload = await response.json();
+    if (!payload.ok) throw new Error("Invalid response");
+    const reviews = Array.isArray(payload.reviews) ? payload.reviews : [];
+    const nextSignature = reviews.map((r) => r.id).join("|");
+    if (nextSignature !== reviewSignature) {
+      reviewSignature = nextSignature;
+      renderLiveReviews(reviews);
+    }
+  } catch (error) {
+    if (liveReviewsEl && !reviewSignature) {
+      liveReviewsEl.innerHTML = `<p class="live-empty">Live review server unavailable. Flask backend run karein: <code>python app.py</code></p>`;
+    }
+  }
+};
+
 const form = document.getElementById("enquiryForm");
 const formMsg = document.getElementById("formMsg");
 
@@ -170,3 +233,46 @@ if (form && formMsg) {
     form.reset();
   });
 }
+
+if (reviewForm && reviewMsg) {
+  reviewForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const data = new FormData(reviewForm);
+    const name = String(data.get("name") || "").trim();
+    const role = String(data.get("role") || "").trim();
+    const comment = String(data.get("comment") || "").trim();
+    const rating = Number(data.get("rating") || 0);
+
+    if (!name || name.length < 2 || !role || !comment || comment.length < 8 || rating < 1 || rating > 7) {
+      reviewMsg.textContent = "Please fill valid name, role, rating (1-7), and review (min 8 chars).";
+      reviewMsg.style.color = "#bf1f1f";
+      return;
+    }
+
+    reviewMsg.textContent = "Submitting review...";
+    reviewMsg.style.color = "#0d5aa8";
+
+    try {
+      const response = await fetch(`${API_BASE}/api/reviews`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, role, comment, rating }),
+      });
+      const payload = await response.json();
+      if (!response.ok || !payload.ok) {
+        throw new Error(payload.error || "Review submit failed");
+      }
+      reviewMsg.textContent = "Review saved and published live.";
+      reviewMsg.style.color = "#147a33";
+      reviewForm.reset();
+      reviewSignature = "";
+      await fetchLiveReviews();
+    } catch (error) {
+      reviewMsg.textContent = "Review save nahi hua. Backend check karein (`python app.py`).";
+      reviewMsg.style.color = "#bf1f1f";
+    }
+  });
+}
+
+fetchLiveReviews();
+setInterval(fetchLiveReviews, 15000);

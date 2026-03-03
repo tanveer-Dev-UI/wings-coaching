@@ -13,6 +13,7 @@ from flask import Flask, abort, jsonify, request, send_from_directory
 ROOT = Path(__file__).resolve().parent
 DATA_DIR = ROOT / "data"
 LEADS_FILE = DATA_DIR / "leads.jsonl"
+REVIEWS_FILE = DATA_DIR / "reviews.jsonl"
 DATA_DIR.mkdir(exist_ok=True)
 
 WHATSAPP_NUMBER = os.getenv("WINGS_WHATSAPP_NUMBER", "919559752997")
@@ -54,6 +55,26 @@ def _build_whatsapp_message(lead: dict[str, str]) -> str:
             f"Submitted At: {lead['timestamp']}",
         ]
     )
+
+
+def _read_latest_reviews(limit: int = 20) -> list[dict[str, object]]:
+    if not REVIEWS_FILE.exists():
+        return []
+
+    items: list[dict[str, object]] = []
+    with REVIEWS_FILE.open("r", encoding="utf-8") as fp:
+        for line in fp:
+            line = line.strip()
+            if not line:
+                continue
+            try:
+                obj = json.loads(line)
+                if isinstance(obj, dict):
+                    items.append(obj)
+            except json.JSONDecodeError:
+                continue
+
+    return items[-limit:][::-1]
 
 
 def _safe_static(path: str):
@@ -101,6 +122,57 @@ def create_enquiry():
     wa_message = _build_whatsapp_message(lead)
     wa_url = f"https://wa.me/{WHATSAPP_NUMBER}?text={urllib.parse.quote(wa_message)}"
     return jsonify({"ok": True, "lead_id": lead["id"], "wa_url": wa_url})
+
+
+@app.get("/api/reviews")
+def list_reviews():
+    raw_limit = request.args.get("limit", "20")
+    try:
+        limit = int(raw_limit)
+    except ValueError:
+        limit = 20
+    limit = max(1, min(limit, 100))
+    return jsonify({"ok": True, "reviews": _read_latest_reviews(limit)})
+
+
+@app.post("/api/reviews")
+def create_review():
+    payload = request.get_json(silent=True) or {}
+    now = dt.datetime.now(dt.timezone(dt.timedelta(hours=5, minutes=30)))
+
+    name = _clean(payload.get("name"))[:60]
+    role = _clean(payload.get("role"))[:80]
+    comment = _clean(payload.get("comment"))[:500]
+    rating_raw = _clean(payload.get("rating"))
+
+    try:
+        rating = int(rating_raw)
+    except ValueError:
+        rating = 0
+
+    if not name or len(name) < 2:
+        return jsonify({"ok": False, "error": "Name is required"}), 400
+    if not role:
+        return jsonify({"ok": False, "error": "Role/Class is required"}), 400
+    if not comment or len(comment) < 8:
+        return jsonify({"ok": False, "error": "Review should be at least 8 characters"}), 400
+    if rating < 1 or rating > 7:
+        return jsonify({"ok": False, "error": "Rating must be between 1 and 7"}), 400
+
+    review: dict[str, object] = {
+        "id": uuid.uuid4().hex[:12],
+        "name": name,
+        "role": role,
+        "comment": comment,
+        "rating": rating,
+        "timestamp": now.strftime("%d %b %Y, %I:%M %p"),
+        "created_at": int(now.timestamp()),
+    }
+
+    with REVIEWS_FILE.open("a", encoding="utf-8") as fp:
+        fp.write(json.dumps(review, ensure_ascii=True) + "\n")
+
+    return jsonify({"ok": True, "review": review})
 
 
 @app.get("/")
