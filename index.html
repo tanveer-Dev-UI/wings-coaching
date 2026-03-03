@@ -30,6 +30,7 @@
         <a href="#about">About</a>
         <a href="#programs">Programs</a>
         <a href="#fees">Fees</a>
+        <a href="#reviews">7-Star Reviews</a>
         <a href="#gallery">Gallery</a>
         <a href="#contact">Contact</a>
         <a class="btn small" href="https://wa.me/919559752997?text=Hello%20Wings%20Coaching%2C%20mujhe%20admission%20details%20chahiye" target="_blank" rel="noopener">WhatsApp</a>
@@ -87,6 +88,7 @@
             <span>Class 6th-12th</span>
             <span>Friendly Mentor</span>
             <span>Current Cycle Seats Left: 18</span>
+            <span>Python Smart Lead Backend</span>
           </div>
         </div>
       </div>
@@ -282,10 +284,20 @@
       </div>
     </section>
 
-    <section class="section">
+    <section id="reviews" class="section reviews-seven">
       <div class="container">
-        <p class="tag">Testimonials</p>
-        <h2>Parents and Students Feedback</h2>
+        <p class="tag">7-Star Reviews</p>
+        <h2>Parent Delight Wall - Rated 7/7</h2>
+        <div class="seven-score reveal up">★★★★★★★ <span>7.0 / 7.0 Parent Satisfaction</span></div>
+        <div class="grid seven-grid">
+          <article class="card reveal up"><h3>Rizwana (Class 8)</h3><p>Maths me confidence zero se strong ho gaya. Teacher ka behavior bahut supportive hai.</p></article>
+          <article class="card reveal up"><h3>Amit Sir (Class 10 Parent)</h3><p>Regular testing aur report se clear tracking milti hai. Decision lene me koi confusion nahi.</p></article>
+          <article class="card reveal up"><h3>Pooja (Class 12)</h3><p>Hard chapter ko simple bana dete hain. Board prep aur numericals dono balanced hai.</p></article>
+          <article class="card reveal up"><h3>Naseem (Class 9 Parent)</h3><p>Discipline, attendance aur homework control system bahut effective hai.</p></article>
+          <article class="card reveal up"><h3>Ananya (Class 11)</h3><p>Maths speed drills ne test score kaafi improve kar diya.</p></article>
+          <article class="card reveal up"><h3>Deepak (Class 7 Parent)</h3><p>Friendly teaching style ki wajah se bachcha khud padhna chahta hai.</p></article>
+          <article class="card reveal up"><h3>Farheen (Class 6 Parent)</h3><p>Affordable fees me premium quality guidance mil rahi hai.</p></article>
+        </div>
         <div class="marquee">
           <div class="track">
             <span>"Teacher bahut friendly hain, meri daughter ka maths fear khatam ho gaya."</span>
@@ -305,15 +317,29 @@
       <div class="container split">
         <div class="reveal up">
           <p class="tag">Admission Enquiry</p>
-          <h2>Book Free Demo & Counseling</h2>
-          <p>Form fill karo, ya directly WhatsApp pe message karo. Team 24 hours ke andar reply karegi.</p>
-          <a class="btn" href="https://wa.me/919559752997?text=Hello%20Wings%20Coaching%2C%20mujhe%20admission%20lena%20hai" target="_blank" rel="noopener">Instant WhatsApp Admission</a>
+          <h2>Book Free Demo, Callback & Admission in One Form</h2>
+          <p>Form submit karte hi complete details WhatsApp pe ready message ke saath is number par chali jayegi.</p>
+          <a class="btn" href="https://wa.me/919559752997?text=Hello%20Wings%20Coaching%2C%20mujhe%20free%20demo%20class%20book%20karni%20hai" target="_blank" rel="noopener">Instant Demo on WhatsApp</a>
         </div>
 
         <form id="enquiryForm" class="form reveal left">
           <label>
+            Enquiry Type
+            <select name="enquiryType" required>
+              <option value="">Select enquiry type</option>
+              <option>Free Demo Class</option>
+              <option>New Admission</option>
+              <option>Fee Details</option>
+              <option>Maths Premium Batch</option>
+            </select>
+          </label>
+          <label>
             Student Name
             <input type="text" name="name" required placeholder="Enter full name" />
+          </label>
+          <label>
+            Parent Name
+            <input type="text" name="parentName" required placeholder="Enter parent name" />
           </label>
           <label>
             Class
@@ -335,6 +361,10 @@
           <label>
             Message
             <textarea name="message" rows="4" placeholder="Aapko kis subject me help chahiye?"></textarea>
+          </label>
+          <label>
+            Preferred Callback Time
+            <input type="text" name="preferredTime" placeholder="e.g. 5 PM - 7 PM" />
           </label>
           <button type="submit" class="btn full">Submit Enquiry</button>
           <p class="form-msg" id="formMsg"></p>

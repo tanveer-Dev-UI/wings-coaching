@@ -244,6 +244,7 @@ li {
   border: 1px solid rgba(73, 194, 255, 0.4);
   box-shadow: 0 0 0 2px rgba(20, 130, 255, 0.2), 0 28px 50px rgba(3, 19, 45, 0.65);
   background: linear-gradient(150deg, rgba(42, 203, 255, 0.35), rgba(15, 31, 70, 0.8));
+  transition: transform 0.2s ease;
 }
 
 .portrait-glow img {
@@ -503,6 +504,45 @@ li {
   color: #c7daf8;
 }
 
+.reviews-seven {
+  background: radial-gradient(circle at 12% 8%, #fafdff 0%, #eef5ff 52%, #e7f0ff 100%);
+}
+
+.seven-score {
+  margin: 10px 0 16px;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: #ffb21c;
+  background: #fff;
+  border: 1px solid #ffd58c;
+  border-radius: 999px;
+  padding: 8px 14px;
+  box-shadow: var(--glow);
+}
+
+.seven-score span {
+  color: #113463;
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.seven-grid {
+  grid-template-columns: repeat(4, 1fr);
+  margin-bottom: 14px;
+}
+
+.seven-grid .card {
+  border-top: 3px solid #ffbe40;
+  background: linear-gradient(180deg, #ffffff 0%, #fffaf0 100%);
+}
+
+.seven-grid .card h3 {
+  margin-bottom: 8px;
+}
+
 .sub {
   margin-top: -4px;
   margin-bottom: 14px;
@@ -649,6 +689,7 @@ textarea {
   .grid.three,
   .grid.four,
   .gallery,
+  .seven-grid,
   .contact-grid,
   .strip {
     grid-template-columns: 1fr 1fr;
@@ -698,6 +739,7 @@ textarea {
   .grid.three,
   .grid.four,
   .gallery,
+  .seven-grid,
   .contact-grid,
   .strip,
   .math-boxes {
